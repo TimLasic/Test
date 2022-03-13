@@ -1,0 +1,1 @@
+Hitri prizor kako dodati README.md datoteko.
