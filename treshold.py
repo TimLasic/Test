@@ -25,10 +25,10 @@ def convolve(img,kernel):
         for x in np.arange(pad,iW+pad):
             roi = img[y-pad:y +pad +1, x -pad:x+pad+1] #extrectam mini sliko iz originalne slike : pomeni npr. 0-3 ali kaj druga  roi=region of interest
             k = (roi * kernel).sum()
-
+            #print(k)
             output[y-pad, x -pad] = k
     
-    output = (output * 255).astype("uint8")
+    output = (output * 1).astype("uint8")
     return output
 
 def convolveRob(img,kernel):
@@ -56,28 +56,30 @@ def combine(gx,gy):
             px = gx[j,i]
             py = gy[j,i]
             absol = int(abs(gx[j,i]))+int(abs(gy[j,i]))
-            if(absol > 255):
+            '''if(absol > 255):
                 output[j,i]=255
-            else:
-                output[j,i]=(absol)
+            else:'''
+            x = output[j,i]
+            output[j,i]=(absol)
     output = (output * 255).astype("uint8")     
     return output
 
 
 
 
-img = cv.imread('tim-dark.png') #BGR
+img = cv.imread('lenna.png') #BGR
 
-value =100
+#value =100
 #mat = np.ones(img.shape,dtype = 'uint8')*value
 #brighter = cv.add(img,mat) #svetlo
 #subtract = cv.subtract(img,mat) #temno
 
 gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 blur = cv.GaussianBlur(gray,(3,3),cv.BORDER_DEFAULT) #PRAŠTECILA(7,7)
-#blur = cv.resize(blur,(250,250))
+blur = cv.resize(blur,(100,100))
 
 cv.imshow('pepe',blur)
+
 #kernel roberts  \begin{equation*} G = \sqrt{G_x^2 * G_y^2} \end{equation*} ------------------------------------------------------------------------------------
 
 _array1 = np.array((
@@ -97,18 +99,19 @@ _array2 = np.array((
 output2 = convolveRob(blur,_array2)
 
 cv.imshow(" roberts y convolve", output2)
+#output = combine(output1,output2)
+#cv.imshow(" roberts combined convolve", output)
 
 #canny
 canny = cv.Canny(blur,125,175) #blur zmanjša število risov
 cv.imshow('canny',canny)
-#output = combine(output3,output4)
-#cv.imshow(" roberts combined convolve", output)
+
 #prewit skalrani produkt mase  v novi array |absolut gx lpus absolut gy -----------------------------------------------------------------------------------------------
 _array3 = np.array((
 	[1,0,-1],
 	[1,0,-1],
     [1,0,-1]
-    ), dtype="int")
+    ))#, dtype="int")
 
 output3 = convolve(blur,_array3)
 
@@ -123,8 +126,10 @@ _array4 = np.array((
 output4 = convolve(blur,_array4)
 
 cv.imshow(" prewit y convolve", output4)
-#output = combine(output3,output4)
+output = combine(output3,output4)
 #cv.imshow(" prewit combined convolve", output)
+
+
 #sobel---------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -146,8 +151,8 @@ output6 = convolve(blur,_array6)
 
 cv.imshow(" sobel y convolve", output6)
 
-output = combine(output6,output6)
-cv.imshow(" sobel combined convolve", output)
+#output = combine(output5,output6)
+#cv.imshow(" sobel combined convolve", output)
 #cv.imshow('pepegass',dst) TRESHOLD ZA NASLEDNO NALOGO
 cv.waitKey(0)
 
