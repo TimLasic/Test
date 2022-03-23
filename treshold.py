@@ -28,7 +28,10 @@ def convolve(img,kernel):
             #print(k)
             output[y-pad, x -pad] = k
     
-    output = (output * 1).astype("uint8")
+    #output = (255*(output - np.min(output))/np.ptp(output)).astype(int)
+    #output =((output - output.min()) * (1/(output.max() - output.min()) * 255)).astype('uint8')
+    output = (output * 255).astype("uint8")
+    #output =(((output + output.min()) / output.max() ) * 255).astype('uint8')
     return output
 
 def convolveRob(img,kernel):
@@ -45,6 +48,9 @@ def convolveRob(img,kernel):
 
             output[y-pad, x -pad] = k
     
+    #output = (255*(output - np.min(output))/np.ptp(output)).astype(int)
+    #output =((output - output.min()) * (1/(output.max() - output.min()) * 255)).astype('uint8')
+    #output =(((output + output.min()) / output.max() ) * 255).astype('uint8')
     output = (output * 255).astype("uint8")
     return output
 
@@ -61,13 +67,15 @@ def combine(gx,gy):
             else:'''
             x = output[j,i]
             output[j,i]=(absol)
+    #output =((output - output.min()) * (1/(output.max() - output.min()) * 255)).astype('uint8')
+    #output =(((output + output.min()) / output.max() ) * 255).astype('uint8')
     output = (output * 255).astype("uint8")     
     return output
 
 
 
 
-img = cv.imread('lenna.png') #BGR
+img = cv.imread('tim-bright.png') #BGR
 
 #value =100
 #mat = np.ones(img.shape,dtype = 'uint8')*value
@@ -76,7 +84,7 @@ img = cv.imread('lenna.png') #BGR
 
 gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 blur = cv.GaussianBlur(gray,(3,3),cv.BORDER_DEFAULT) #PRAŠTECILA(7,7)
-blur = cv.resize(blur,(100,100))
+#blur = cv.resize(blur,(100,100))
 
 cv.imshow('pepe',blur)
 
@@ -127,7 +135,7 @@ output4 = convolve(blur,_array4)
 
 cv.imshow(" prewit y convolve", output4)
 output = combine(output3,output4)
-#cv.imshow(" prewit combined convolve", output)
+cv.imshow(" prewit combined convolve", output)
 
 
 #sobel---------------------------------------------------------------------------------------------------------------------------------------------
@@ -151,8 +159,8 @@ output6 = convolve(blur,_array6)
 
 cv.imshow(" sobel y convolve", output6)
 
-#output = combine(output5,output6)
-#cv.imshow(" sobel combined convolve", output)
+output = combine(output5,output6)
+cv.imshow(" sobel combined convolve", output)
 #cv.imshow('pepegass',dst) TRESHOLD ZA NASLEDNO NALOGO
 cv.waitKey(0)
 
