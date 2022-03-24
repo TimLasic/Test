@@ -30,7 +30,9 @@ def convolve(img,kernel):
     
     #output = (255*(output - np.min(output))/np.ptp(output)).astype(int)
     #output =((output - output.min()) * (1/(output.max() - output.min()) * 255)).astype('uint8')
-    output = (output * 255).astype("uint8")
+    output = np.absolute(output)
+    output = np.uint8(255*output/np.max(output))
+    #output = (output * 255).astype("uint8")
     #output =(((output + output.min()) / output.max() ) * 255).astype('uint8')
     return output
 
@@ -51,7 +53,9 @@ def convolveRob(img,kernel):
     #output = (255*(output - np.min(output))/np.ptp(output)).astype(int)
     #output =((output - output.min()) * (1/(output.max() - output.min()) * 255)).astype('uint8')
     #output =(((output + output.min()) / output.max() ) * 255).astype('uint8')
-    output = (output * 255).astype("uint8")
+    output = np.absolute(output)
+    output = np.uint8(255*output/np.max(output))
+    #output = (output * 255).astype("uint8")
     return output
 
 def combine(gx,gy):
@@ -69,7 +73,9 @@ def combine(gx,gy):
             output[j,i]=(absol)
     #output =((output - output.min()) * (1/(output.max() - output.min()) * 255)).astype('uint8')
     #output =(((output + output.min()) / output.max() ) * 255).astype('uint8')
-    output = (output * 255).astype("uint8")     
+    output = np.absolute(output)
+    output = np.uint8(255*output/np.max(output))
+    #output = (output * 255).astype("uint8")     
     return output
 
 
@@ -107,8 +113,8 @@ _array2 = np.array((
 output2 = convolveRob(blur,_array2)
 
 cv.imshow(" roberts y convolve", output2)
-#output = combine(output1,output2)
-#cv.imshow(" roberts combined convolve", output)
+output = combine(output1,output2)
+cv.imshow(" roberts combined convolve", output)
 
 #canny
 canny = cv.Canny(blur,125,175) #blur zmanjša število risov
@@ -119,7 +125,7 @@ _array3 = np.array((
 	[1,0,-1],
 	[1,0,-1],
     [1,0,-1]
-    ))#, dtype="int")
+    ), dtype="int")
 
 output3 = convolve(blur,_array3)
 
@@ -151,7 +157,7 @@ output5 = convolve(blur,_array5)
 cv.imshow(" sobel x convolve", output5)
 
 _array6 = np.array((
-	[-1,-2,-1],
+	[1,2,1],
 	[0,0,0],
     [-1,-2,-1]
     ), dtype="int")
@@ -161,7 +167,8 @@ cv.imshow(" sobel y convolve", output6)
 
 output = combine(output5,output6)
 cv.imshow(" sobel combined convolve", output)
-#cv.imshow('pepegass',dst) TRESHOLD ZA NASLEDNO NALOGO
+#imgSobel = cv.Sobel(blur, cv.CV_32F, 0,1, ksize=3)
+#cv.imshow('real sobel',imgSobel)# TRESHOLD ZA NASLEDNO NALOGO
 cv.waitKey(0)
 
 #manhant
