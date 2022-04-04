@@ -103,7 +103,7 @@ _array1 = np.array((
 
 output1 = convolveRob(blur,_array1)
 cv.imshow("original", gray)
-cv.imshow(" roberts x convolve", output1)
+#cv.imshow(" roberts x convolve", output1)
 
 _array2 = np.array((
 	[-1, 0],
@@ -112,7 +112,7 @@ _array2 = np.array((
 
 output2 = convolveRob(blur,_array2)
 
-cv.imshow(" roberts y convolve", output2)
+#cv.imshow(" roberts y convolve", output2)
 output = combine(output1,output2)
 cv.imshow(" roberts combined convolve", output)
 
@@ -129,7 +129,7 @@ _array3 = np.array((
 
 output3 = convolve(blur,_array3)
 
-cv.imshow(" prewit x convolve", output3)
+#cv.imshow(" prewit x convolve", output3)
 
 _array4 = np.array((
 	[1,1,1],
@@ -139,7 +139,7 @@ _array4 = np.array((
 
 output4 = convolve(blur,_array4)
 
-cv.imshow(" prewit y convolve", output4)
+#cv.imshow(" prewit y convolve", output4)
 output = combine(output3,output4)
 cv.imshow(" prewit combined convolve", output)
 
@@ -154,7 +154,7 @@ _array5 = np.array((
     ), dtype="int")
 output5 = convolve(blur,_array5)
 
-cv.imshow(" sobel x convolve", output5)
+#cv.imshow(" sobel x convolve", output5)
 
 _array6 = np.array((
 	[1,2,1],
@@ -163,7 +163,7 @@ _array6 = np.array((
     ), dtype="int")
 output6 = convolve(blur,_array6)
 
-cv.imshow(" sobel y convolve", output6)
+#cv.imshow(" sobel y convolve", output6)
 
 output = combine(output5,output6)
 cv.imshow(" sobel combined convolve", output)
